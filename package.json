@@ -29,6 +29,7 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
+    "bad-words": "^3.0.4",
     "express": "^4.17.2",
     "socket.io": "^4.4.1"
   }
