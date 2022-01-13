@@ -29,10 +29,10 @@ io.on('connection', (socket) => {
     }
 
     socket.join(user.room)
-    socket.emit('message', generateMessage('Admin', 'Bem vindo!'))
+    socket.emit('message', generateMessage('Sistema', 'Bem vindo!'))
     socket.broadcast
       .to(user.room)
-      .emit('message', generateMessage('Admin', `${user.username} entrou.`))
+      .emit('message', generateMessage('Sistema', `${user.username} entrou.`))
 
     io.to(user.room).emit('roomData', {
       room: user.room,
@@ -51,7 +51,10 @@ io.on('connection', (socket) => {
       return callback('Profanity is not allowed')
     }
 
-    io.to(user.room).emit('message', generateMessage(user.username, message))
+    io.to(user.room).emit(
+      'message',
+      generateMessage(user.username, user.color, message)
+    )
     callback()
   })
 
@@ -72,7 +75,7 @@ io.on('connection', (socket) => {
     if (user) {
       io.to(user.room).emit(
         'message',
-        generateMessage('Admin', `${user.username} saiu.`)
+        generateMessage('Sistema', `${user.username} saiu.`)
       )
       io.to(user.room).emit('roomData', {
         room: user.room,

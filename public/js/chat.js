@@ -9,7 +9,7 @@ const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
 
 // Templates
-const messageTemplate = document.querySelector('#message-template').innerHTML
+const messageTemplate = document.querySelector('#message-template')
 const locationMessageTemplate = document.querySelector(
   '#location-message-template'
 ).innerHTML
@@ -39,18 +39,21 @@ const autoscroll = () => {
 }
 
 socket.on('message', (message) => {
-  const html = Mustache.render(messageTemplate, {
+  const html = Mustache.render(messageTemplate.innerHTML, {
     username: message.username,
     message: message.text,
+    color: `style="color: ${message.color}"`,
     createdAt: moment(message.createdAt).format('H:m')
   })
   $messages.insertAdjacentHTML('beforeend', html)
+  // update to add the user color
   autoscroll()
 })
 
 socket.on('locationMessage', (message) => {
   const html = Mustache.render(locationMessageTemplate, {
     username: message.username,
+    color: `style="color: ${message.color}"`,
     url: message.url,
     createdAt: moment(message.createdAt).format('H:m')
   })
